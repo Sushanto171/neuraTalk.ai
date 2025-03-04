@@ -25,14 +25,16 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        <div className="flex h-[200000px]">
+        <div className="flex h-[200000px] ">
           {/* sidebar */}
-          <aside className="w-64 ">
+          <aside>
             <Sidebar />
           </aside>
 
           {/* main content */}
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 transition-transform duration-500">
+            {children}
+          </main>
         </div>
       </body>
     </html>

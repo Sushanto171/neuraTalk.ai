@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SignOut from "../sidbar/SignOut";
 
 const Navbar = () => {
   return (
@@ -7,7 +8,10 @@ const Navbar = () => {
         <div>
           <Link href={"/"}>NeuraTalk.ai</Link>
         </div>
-        <div>Profile</div>
+        <div className="flex items-center gap-2">
+          <SignOut />
+          Profile
+        </div>
       </div>
     </nav>
   );

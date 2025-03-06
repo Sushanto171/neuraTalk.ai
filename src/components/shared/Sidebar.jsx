@@ -8,7 +8,9 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`relative transition duration-500 ${isOpen ? "w-64" : "w-0"}`}
+      className={`fixed sm:relative transition duration-500 ${
+        isOpen ? "w-64" : "w-0"
+      }`}
     >
       {/* Sidebar */}
       <div
@@ -22,18 +24,18 @@ const Sidebar = () => {
             <Link href={"/"}>New Chat</Link>
           </li>
           <li>
-            <Link href={"/"}>History</Link>
+            <Link href={"/history"}>History</Link>
           </li>
           <li>
-            <Link href={"/"}>Support</Link>
+            <Link href={"/support"}>Support</Link>
           </li>
         </ul>
       </div>
 
       {/* Toggle Button (14px Right from Sidebar) */}
       <div
-        className={`fixed top-15 transition-all duration-500 ${
-          isOpen ? "left-[256px]" : "left-0.5"
+        className={`fixed top-14 transition-all duration-500 ${
+          isOpen ? "left-[254px]" : "left-[0px]"
         }`}
       >
         <Toggle onOpen={setIsOpen} />

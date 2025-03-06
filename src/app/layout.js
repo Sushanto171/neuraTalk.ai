@@ -20,23 +20,25 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar />
-        <div className="flex h-[200000px] ">
-          {/* sidebar */}
-          <aside>
-            <Sidebar />
-          </aside>
+    <>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Navbar />
+          <div className="flex h-[200000px] ">
+            {/* sidebar */}
+            <aside>
+              <Sidebar />
+            </aside>
 
-          {/* main content */}
-          <main className="flex-1 transition-transform duration-500">
-            {children}
-          </main>
-        </div>
-      </body>
-    </html>
+            {/* main content */}
+            <main className="flex-1 transition-transform duration-500 p-4">
+              {children}
+            </main>
+          </div>
+        </body>
+      </html>
+    </>
   );
 }

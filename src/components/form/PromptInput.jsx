@@ -47,9 +47,10 @@ const PromptInput = () => {
     }
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim()) {
       console.log("User Input:", input);
+
       setInput("");
     }
   };
@@ -61,7 +62,7 @@ const PromptInput = () => {
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type a message..."
         className="flex-1 outline-none p-2 text-gray-700 resize-none"
-        rows={1}
+        rows={2}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();

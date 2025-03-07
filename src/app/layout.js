@@ -1,6 +1,7 @@
 import Navbar from "@/components/shared/Navbar";
 import Sidebar from "@/components/shared/Sidebar";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "NeuraTalk.ai",
   description: "AI-powered smart chat assistant",
+  authors: "Sushanto kumar",
 };
 
 export default function RootLayout({ children }) {
@@ -25,6 +27,7 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <Toaster />
           <Navbar />
           <div className="flex h-[200000px] ">
             {/* sidebar */}

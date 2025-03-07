@@ -34,8 +34,8 @@ const Sidebar = () => {
 
       {/* Toggle Button (14px Right from Sidebar) */}
       <div
-        className={`fixed top-14 transition-all duration-500 ${
-          isOpen ? "left-[254px]" : "left-[0px]"
+        className={`fixed top-16 transition-all duration-500 ${
+          isOpen ? "left-[250px]" : "left-[0px]"
         }`}
       >
         <Toggle onOpen={setIsOpen} />

@@ -2,11 +2,13 @@
 import toast from "daisyui/components/toast";
 import { AudioLines, Mic, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import ContentArea from "../ContentArea";
 
 const PromptInput = () => {
   const [input, setInput] = useState("");
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef(null);
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     // Check if the browser supports SpeechRecognition
@@ -50,38 +52,50 @@ const PromptInput = () => {
   const handleSend = async () => {
     if (input.trim()) {
       console.log("User Input:", input);
-
+      fetch(`http://localhost:3000/api/prompts?prompt=${input}`)
+        .then((res) => res.json())
+        .then((data) => {
+          data;
+          setChats((prev) => [...prev, data.data]);
+        });
       setInput("");
     }
   };
 
   return (
-    <div className="flex items-center border border-gray-300 rounded-xl p-2 shadow-md bg-white w-full max-w-2xl mx-auto">
-      <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type a message..."
-        className="flex-1 outline-none p-2 text-gray-700 resize-none"
-        rows={2}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            handleSend();
-          }
-        }}
-      />
-      <button
-        onClick={toggleListening}
-        className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition mx-1"
-      >
-        {listening ? <AudioLines size={20} /> : <Mic size={20} />}
-      </button>
-      <button
-        onClick={handleSend}
-        className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition"
-      >
-        <Send size={20} />
-      </button>
+    <div className="flex-1 w-full max-w-2xl mx-auto flex flex-col gap-10">
+      {/* content area */}
+      <div className="overflow-y-auto h-[calc(100vh-220px)]">
+        <ContentArea chats={chats} />
+      </div>
+      {/* input area */}
+      <div className="flex items-center border border-gray-300 rounded-xl p-2 shadow-md bg-white w-full max-w-2xl mx-auto">
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type a message..."
+          className="flex-1 outline-none p-2 text-gray-700 resize-none"
+          rows={2}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
+        />
+        <button
+          onClick={toggleListening}
+          className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition mx-1"
+        >
+          {listening ? <AudioLines size={20} /> : <Mic size={20} />}
+        </button>
+        <button
+          onClick={handleSend}
+          className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition"
+        >
+          <Send size={20} />
+        </button>
+      </div>
     </div>
   );
 };

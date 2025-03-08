@@ -20,7 +20,7 @@ const formatText = (text) => {
 const ContentArea = ({ isNewChat }) => {
   const { chats } = useSelector((state) => state.chats);
 
-  console.log(chats);
+  // console.log(chats);
   return (
     <div
       className={`flex-1 overflow-auto p-4 bg-gray-100 rounded-lg border border-gray-300 shadow-md ${

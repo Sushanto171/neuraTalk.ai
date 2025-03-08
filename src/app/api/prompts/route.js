@@ -80,6 +80,6 @@ export const POST = async (req) => {
     }
     return Response.json({ message: "success", data: { chatId } });
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
   }
 };

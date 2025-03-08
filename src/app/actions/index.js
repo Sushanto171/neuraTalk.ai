@@ -7,5 +7,5 @@ export async function doSocial(formData) {
 
   const response = await signIn(action, { redirectTo: "/" });
 
-  console.log({ response });
+  // console.log({ response });
 }

@@ -85,7 +85,7 @@ const PromptInput = () => {
       };
       const result = await addChats(data);
       setChatId(result.chatId);
-      console.log(result);
+      // console.log(result);
       setInput("");
       const refetch = {
         email: session?.data?.user?.email,

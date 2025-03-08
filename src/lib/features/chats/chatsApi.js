@@ -7,7 +7,7 @@ export const getChats = async (email, chatId) => {
     );
     return data.data;
   } catch (error) {
-    console.log("chatsFetchError:", error.message);
+    // console.log("chatsFetchError:", error.message);
   }
 };
 
@@ -19,6 +19,6 @@ export const addChats = async (data) => {
     );
     return result?.data;
   } catch (error) {
-    console.log("ChatsPostError:", error.message);
+    // console.log("ChatsPostError:", error.message);
   }
 };

@@ -1,8 +1,9 @@
 "use client";
 import { addChats } from "@/lib/features/chats/chatsApi";
 import { fetchChats } from "@/lib/features/chats/chatsSlice";
+import { resetNewChat, setNewChat } from "@/lib/features/newChat/newChatSlice";
 import toast from "daisyui/components/toast";
-import { AudioLines, Mic, Send } from "lucide-react";
+import { AudioLines, CirclePlus, Mic, Send } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,16 +15,10 @@ const PromptInput = () => {
   const recognitionRef = useRef(null);
   const session = useSession();
   const dispatch = useDispatch();
-  const historyId = useSelector((state) => state.history.chatId);
-
-  const {
-    chats,
-    isLoading,
-    isError,
-    error,
-    chatId: existChatId,
-  } = useSelector((state) => state.chats);
+  const { newChat } = useSelector((state) => state.newChat);
+  const { chats, chatId: existChatId } = useSelector((state) => state.chats);
   const [chatId, setChatId] = useState(existChatId || "");
+  const [engine, setEngine] = useState("echoGpt");
 
   useEffect(() => {
     setChatId(existChatId);
@@ -68,7 +63,7 @@ const PromptInput = () => {
   };
 
   useEffect(() => {
-    if (session?.data?.user && chats?.length === 0) {
+    if (session?.data?.user) {
       const data = {
         email: session?.data?.user?.email,
         chatId,
@@ -76,17 +71,7 @@ const PromptInput = () => {
 
       dispatch(fetchChats(data));
     }
-  }, [session?.data?.user, chats?.length]);
-
-  // if trigger history
-  useEffect(() => {
-    setChatId(historyId);
-    const refetch = {
-      email: session?.data?.user?.email,
-      chatId,
-    };
-    dispatch(fetchChats(refetch));
-  }, [historyId]);
+  }, [session?.data?.user]);
 
   const handleSend = async () => {
     if (!session?.data?.user?.email) return toast.error("User is not exist");
@@ -96,6 +81,7 @@ const PromptInput = () => {
         prompt: input,
         email: session.data.user.email,
         chatId: chatId ? chatId : new Date().getTime(),
+        engine,
       };
       const result = await addChats(data);
       setChatId(result.chatId);
@@ -107,17 +93,42 @@ const PromptInput = () => {
       };
 
       dispatch(fetchChats(refetch));
+      setNewChat(false);
+      dispatch(resetNewChat());
     }
   };
 
   return (
-    <div className="flex-1 w-full max-w-2xl mx-auto flex flex-col gap-10">
+    <div className="flex-1 justify-center w-full max-w-2xl mx-auto flex flex-col gap-10">
       {/* content area */}
-      <div className="overflow-y-auto h-[calc(100vh-220px)]">
-        <ContentArea chats={chats} />
+      <div
+        className={`overflow-y-auto ${newChat ? "" : "h-[calc(100vh-220px)]"} ${
+          chats.length > 0 && !newChat ? "h-[calc(100vh-220px)]" : ""
+        }`}
+      >
+        <ContentArea isNewChat={newChat} />
       </div>
       {/* input area */}
-      <div className="flex items-center border border-gray-300 rounded-xl p-2 shadow-md bg-white w-full max-w-2xl mx-auto">
+      <div className="flex items-start border border-gray-300 rounded-xl p-2 shadow-md bg-white w-full max-w-2xl mx-auto">
+        {/* add new chat  */}
+        <div>
+          <button
+            onClick={() => {
+              setChatId(""), dispatch(setNewChat());
+            }}
+          >
+            <CirclePlus />
+          </button>
+
+          <select
+            onChange={(e) => setEngine(e.target.value)}
+            value={engine}
+            className="select"
+          >
+            <option value={"echoGpt"}>EchoGPT</option>
+            <option value={"gemini"}>Gemini</option>
+          </select>
+        </div>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}

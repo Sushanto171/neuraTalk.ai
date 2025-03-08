@@ -1,3 +1,4 @@
+import { generateTextEcoGPT } from "@/lib/echoGPTConnection";
 import { generateText } from "@/lib/geminiConnection";
 import { promptsCollection } from "@/lib/promptsCollection";
 const collection = promptsCollection();
@@ -36,7 +37,7 @@ export const GET = async (req) => {
 
 export const POST = async (req) => {
   try {
-    const { prompt, email, chatId } = await req.json();
+    const { prompt, email, chatId, engine } = await req.json();
     // validation
     if (!email || !prompt) {
       return Response.json({
@@ -46,7 +47,15 @@ export const POST = async (req) => {
     }
 
     // get content
-    const response = await generateText(prompt);
+    let response;
+    if (engine === "gemini") {
+      response = await generateText(prompt);
+    }
+
+    // echo gpt
+    if (engine === "echoGpt") {
+      response = await generateTextEcoGPT(prompt);
+    }
     // mongodb data
     const dbData = {
       prompt,

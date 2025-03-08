@@ -1,20 +1,22 @@
 "use client";
+import { fetchChats } from "@/lib/features/chats/chatsSlice";
 import { getHistory } from "@/lib/features/history/historyApi";
-import { setChatId } from "@/lib/features/history/historySlice";
+import { resetNewChat } from "@/lib/features/newChat/newChatSlice";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const History = () => {
   const [history, setHistory] = useState([]);
   const session = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+  const { newChat } = useSelector((state) => state.newChat);
 
   useEffect(() => {
     if (!session?.data?.user?.email) return;
     fetchHistory();
-  }, [session?.data?.user?.email]);
+  }, [session?.data?.user?.email, newChat]);
 
   //   fetch history data
   const fetchHistory = async () => {
@@ -25,7 +27,13 @@ const History = () => {
   };
 
   const handlerHistory = (chatId) => {
-    dispatch(setChatId(chatId));
+    // dispatch(setChatId(chatId));
+    const refetch = {
+      email: session?.data?.user?.email,
+      chatId,
+    };
+    dispatch(resetNewChat());
+    dispatch(fetchChats(refetch));
   };
 
   return (
@@ -50,7 +58,7 @@ const History = () => {
             <li key={item._id} className="mb-2">
               <button
                 onClick={() => handlerHistory(item.chatId)}
-                className="w-full py-2 px-4 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200 transition-all truncate"
+                className="cursor-pointer w-full py-2 px-4 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200 transition-all truncate"
               >
                 {item.title}
               </button>

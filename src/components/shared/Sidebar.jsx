@@ -21,9 +21,9 @@ const Sidebar = () => {
       >
         This is side bar
         <ul className="mt-8 space-y-2">
-          <li>
+          {/* <li>
             <Link href={"/"}>New Chat</Link>
-          </li>
+          </li> */}
           <li>
             <History />
           </li>

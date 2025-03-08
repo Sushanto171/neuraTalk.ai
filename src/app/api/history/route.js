@@ -24,6 +24,9 @@ export const GET = async (req) => {
           },
         },
       },
+      {
+        $sort: { chatId: -1 },
+      },
     ])
     .toArray();
 

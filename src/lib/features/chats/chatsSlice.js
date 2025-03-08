@@ -1,9 +1,10 @@
-import getChats from "./chatsApi";
+import { getChats } from "./chatsApi";
 
 const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   chats: [],
+  chatId: "",
   isLoading: false,
   isError: true,
   error: null,
@@ -25,7 +26,8 @@ const chatsSlice = createSlice({
     });
     builder.addCase(fetchChats.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.chats = action.payload;
+      state.chats = action?.payload?.prompts || [];
+      state.chatId = action?.payload?.chatId || "";
     });
     builder.addCase(fetchChats.rejected, (state, action) => {
       state.isLoading = false;

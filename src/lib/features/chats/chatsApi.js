@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 
-const getChats = async (email, chatId) => {
+export const getChats = async (email, chatId) => {
   try {
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/prompts?email=${email}&chatId=${chatId}`
@@ -11,4 +11,14 @@ const getChats = async (email, chatId) => {
   }
 };
 
-export default getChats;
+export const addChats = async (data) => {
+  try {
+    const { data: result } = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/prompts`,
+      data
+    );
+    return result?.data;
+  } catch (error) {
+    console.log("ChatsPostError:", error.message);
+  }
+};

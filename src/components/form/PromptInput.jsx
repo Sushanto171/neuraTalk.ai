@@ -1,4 +1,5 @@
 "use client";
+import { addChats } from "@/lib/features/chats/chatsApi";
 import { fetchChats } from "@/lib/features/chats/chatsSlice";
 import toast from "daisyui/components/toast";
 import { AudioLines, Mic, Send } from "lucide-react";
@@ -12,12 +13,19 @@ const PromptInput = () => {
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef(null);
   const session = useSession();
-  const [chatId, setChatId] = useState("");
   const dispatch = useDispatch();
-  const { chats, isLoading, isError, error } = useSelector(
-    (state) => state.chats
-  );
+  const {
+    chats,
+    isLoading,
+    isError,
+    error,
+    chatId: existChatId,
+  } = useSelector((state) => state.chats);
+  const [chatId, setChatId] = useState(existChatId || "");
 
+  useEffect(() => {
+    setChatId(existChatId);
+  }, [existChatId]);
   useEffect(() => {
     // Check if the browser supports SpeechRecognition
     const SpeechRecognition =
@@ -45,7 +53,7 @@ const PromptInput = () => {
       setListening(false);
     };
   }, []);
-
+  console.log(chatId);
   const toggleListening = () => {
     if (!recognitionRef.current) return;
     if (listening) {
@@ -57,15 +65,37 @@ const PromptInput = () => {
     }
   };
 
-  const handleSend = async () => {
-    if (input.trim()) {
+  useEffect(() => {
+    if (session?.data?.user && chats?.length === 0) {
       const data = {
         email: session?.data?.user?.email,
-        chatId: 101,
+        chatId,
       };
-      // console.log("User Input:", input);
+
       dispatch(fetchChats(data));
+    }
+  }, [session?.data?.user, chats?.length]);
+
+  console.log({ chats });
+  const handleSend = async () => {
+    if (!session?.data?.user?.email) return toast.error("User is not exist");
+    if (input.trim()) {
+      // console.log("User Input:", input);
+      const data = {
+        prompt: input,
+        email: session.data.user.email,
+        chatId: chatId ? chatId : new Date().getTime(),
+      };
+      const result = await addChats(data);
+      setChatId(result.chatId);
+      console.log(result);
       setInput("");
+      const refetch = {
+        email: session?.data?.user?.email,
+        chatId,
+      };
+      console.log(chatId);
+      dispatch(fetchChats(refetch));
     }
   };
 

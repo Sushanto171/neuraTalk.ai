@@ -1,36 +1,32 @@
-import { auth } from "@/lib/authOptions";
 import { generateText } from "@/lib/geminiConnection";
 import { promptsCollection } from "@/lib/promptsCollection";
 const collection = promptsCollection();
 export const GET = async (req) => {
   try {
     // get user email
-    const email = (await auth())?.user?.email;
-    // get prompt
-    return Response.json({ message: "Success", status: 200, data: [] });
-    const prompt = req.nextUrl.searchParams.get("prompt");
-    console.log(email);
-    // validation
-    if (!email || !prompt) {
-      return Response.json({
-        message: "email or prompt invalid, please try again",
-        status: 404,
-      });
-    }
-    // get content
-    const response = await generateText(prompt);
+    const email = req.nextUrl.searchParams.get("email");
+    const chatId = req.nextUrl.searchParams.get("chatId");
+    console.log({ email, chatId });
 
-    // add the prompt data to db
-    const data = {
-      email,
-      prompt,
-      response,
-      createAt: new Date(),
-    };
-    await collection.insertOne(data);
+    let chats;
+    if ((email, chatId)) {
+      chats = await collection.findOne({ email, chatId });
+    }
+    if (email && !chatId) {
+      const result = await collection.find({ email }).toArray();
+      chats = result[result.length - 1];
+    }
+    // get prompt
+
+    return Response.json({
+      message: "Success",
+      status: 200,
+      data: chats ? chats : {},
+    });
 
     // return Response.json({ message: "Success", status: 200, data });
   } catch (error) {
+    console.log(error);
     return Response.json({
       message: "internal server error",
       error: error.message,
@@ -39,6 +35,42 @@ export const GET = async (req) => {
 };
 
 export const POST = async (req) => {
-  console.log(req);
-  return Response.json({ message: "success" });
+  try {
+    const { prompt, email, chatId } = await req.json();
+    // validation
+    if (!email || !prompt) {
+      return Response.json({
+        message: "email or prompt invalid, please try again",
+        status: 404,
+      });
+    }
+
+    // get content
+    const response = await generateText(prompt);
+    // mongodb data
+    const dbData = {
+      prompt,
+      response,
+      createAt: new Date(),
+    };
+
+    const existingChat = await collection.findOne({ email, chatId });
+    let result;
+    if (existingChat) {
+      result = await collection.updateOne(
+        { email, chatId },
+        { $push: { prompts: dbData } },
+        { upsert: true }
+      );
+    } else {
+      result = await collection.insertOne({
+        email,
+        chatId: chatId.toString(),
+        prompts: [dbData],
+      });
+    }
+    return Response.json({ message: "success", data: { chatId } });
+  } catch (error) {
+    console.log(error.message);
+  }
 };

@@ -15,7 +15,7 @@ const formatText = (text) => {
   return formattedText;
 };
 
-const ContentArea = ({ chats }) => {
+const ContentArea = ({ chats = [] }) => {
   return (
     <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded-lg border border-gray-300 shadow-md h-full">
       <div className="space-y-4">

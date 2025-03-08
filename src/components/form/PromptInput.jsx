@@ -14,6 +14,8 @@ const PromptInput = () => {
   const recognitionRef = useRef(null);
   const session = useSession();
   const dispatch = useDispatch();
+  const historyId = useSelector((state) => state.history.chatId);
+
   const {
     chats,
     isLoading,
@@ -26,6 +28,7 @@ const PromptInput = () => {
   useEffect(() => {
     setChatId(existChatId);
   }, [existChatId]);
+
   useEffect(() => {
     // Check if the browser supports SpeechRecognition
     const SpeechRecognition =
@@ -53,7 +56,6 @@ const PromptInput = () => {
       setListening(false);
     };
   }, []);
-  console.log(chatId);
   const toggleListening = () => {
     if (!recognitionRef.current) return;
     if (listening) {
@@ -76,7 +78,16 @@ const PromptInput = () => {
     }
   }, [session?.data?.user, chats?.length]);
 
-  console.log({ chats });
+  // if trigger history
+  useEffect(() => {
+    setChatId(historyId);
+    const refetch = {
+      email: session?.data?.user?.email,
+      chatId,
+    };
+    dispatch(fetchChats(refetch));
+  }, [historyId]);
+
   const handleSend = async () => {
     if (!session?.data?.user?.email) return toast.error("User is not exist");
     if (input.trim()) {
@@ -94,7 +105,7 @@ const PromptInput = () => {
         email: session?.data?.user?.email,
         chatId,
       };
-      console.log(chatId);
+
       dispatch(fetchChats(refetch));
     }
   };

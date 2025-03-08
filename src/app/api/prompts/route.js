@@ -6,7 +6,7 @@ export const GET = async (req) => {
     // get user email
     const email = req.nextUrl.searchParams.get("email");
     const chatId = req.nextUrl.searchParams.get("chatId");
-    console.log({ email, chatId });
+    // console.log({ email, chatId });
 
     let chats;
     if ((email, chatId)) {
@@ -26,7 +26,7 @@ export const GET = async (req) => {
 
     // return Response.json({ message: "Success", status: 200, data });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return Response.json({
       message: "internal server error",
       error: error.message,

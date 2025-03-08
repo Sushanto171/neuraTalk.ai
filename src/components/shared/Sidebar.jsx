@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import History from "../sidbar/History";
 import Toggle from "../sidbar/Toggle";
 
 const Sidebar = () => {
@@ -24,7 +25,7 @@ const Sidebar = () => {
             <Link href={"/"}>New Chat</Link>
           </li>
           <li>
-            <Link href={"/history"}>History</Link>
+            <History />
           </li>
           <li>
             <Link href={"/support"}>Support</Link>

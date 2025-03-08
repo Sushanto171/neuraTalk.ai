@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 // Function to dynamically format bold and italic text
 const formatText = (text) => {
   // Handle bold (**text**) and italic (*text*)
@@ -15,9 +17,14 @@ const formatText = (text) => {
   return formattedText;
 };
 
-const ContentArea = ({ chats = [] }) => {
+const ContentArea = () => {
+  const { chats, isLoading, isError, error } = useSelector(
+    (state) => state.chats
+  );
+
   return (
     <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded-lg border border-gray-300 shadow-md h-full">
+      {isLoading && <h1>...Loading</h1>}
       <div className="space-y-4">
         <ul>
           {chats.map((chat, index) => (

@@ -17,7 +17,7 @@ const formatText = (text) => {
 
 const ContentArea = ({ chats }) => {
   return (
-    <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded-lg border border-gray-300 shadow-md">
+    <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded-lg border border-gray-300 shadow-md h-full">
       <div className="space-y-4">
         <ul>
           {chats.map((chat, index) => (

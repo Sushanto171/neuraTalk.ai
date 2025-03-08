@@ -10,6 +10,6 @@ export const generateText = async (prompt) => {
   const response =
     result.response?.candidates[0]?.content?.parts[0]?.text ||
     "No response content found.";
-  console.log(response);
+  // console.log(response);
   return response;
 };

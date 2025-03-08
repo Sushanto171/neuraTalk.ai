@@ -1,14 +1,22 @@
 "use client";
+import { fetchChats } from "@/lib/features/chats/chatsSlice";
 import toast from "daisyui/components/toast";
 import { AudioLines, Mic, Send } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ContentArea from "../ContentArea";
 
 const PromptInput = () => {
   const [input, setInput] = useState("");
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef(null);
-  const [chats, setChats] = useState([]);
+  const session = useSession();
+  const [chatId, setChatId] = useState("");
+  const dispatch = useDispatch();
+  const { chats, isLoading, isError, error } = useSelector(
+    (state) => state.chats
+  );
 
   useEffect(() => {
     // Check if the browser supports SpeechRecognition
@@ -51,13 +59,12 @@ const PromptInput = () => {
 
   const handleSend = async () => {
     if (input.trim()) {
-      console.log("User Input:", input);
-      fetch(`http://localhost:3000/api/prompts?prompt=${input}`)
-        .then((res) => res.json())
-        .then((data) => {
-          data;
-          setChats((prev) => [...prev, data.data]);
-        });
+      const data = {
+        email: session?.data?.user?.email,
+        chatId: 101,
+      };
+      // console.log("User Input:", input);
+      dispatch(fetchChats(data));
       setInput("");
     }
   };

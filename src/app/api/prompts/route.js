@@ -7,8 +7,9 @@ export const GET = async (req) => {
     // get user email
     const email = (await auth())?.user?.email;
     // get prompt
+    return Response.json({ message: "Success", status: 200, data: [] });
     const prompt = req.nextUrl.searchParams.get("prompt");
-
+    console.log(email);
     // validation
     if (!email || !prompt) {
       return Response.json({
@@ -28,11 +29,16 @@ export const GET = async (req) => {
     };
     await collection.insertOne(data);
 
-    return Response.json({ message: "Success", status: 200, data });
+    // return Response.json({ message: "Success", status: 200, data });
   } catch (error) {
     return Response.json({
       message: "internal server error",
       error: error.message,
     });
   }
+};
+
+export const POST = async (req) => {
+  console.log(req);
+  return Response.json({ message: "success" });
 };

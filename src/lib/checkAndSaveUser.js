@@ -15,7 +15,7 @@ export const checkAndSaveUser = async (user) => {
       image: user.image,
       createdAt: new Date(),
     });
-    console.log(result);
+    // console.log(result);
     return true;
   } catch (error) {
     console.log(error);

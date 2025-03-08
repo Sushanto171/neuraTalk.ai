@@ -1,3 +1,5 @@
+import ProviderSession from "@/components/providers/ProviderSession";
+import ReduxProvider from "@/components/providers/ReduxProvider";
 import Navbar from "@/components/shared/Navbar";
 import Sidebar from "@/components/shared/Sidebar";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -27,19 +29,23 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Toaster />
-          <Navbar />
-          <div className="flex ">
-            {/* sidebar */}
-            <aside>
-              <Sidebar />
-            </aside>
+          <ProviderSession>
+            <ReduxProvider>
+              <Toaster />
+              <Navbar />
+              <div className="flex ">
+                {/* sidebar */}
+                <aside>
+                  <Sidebar />
+                </aside>
 
-            {/* main content */}
-            <main className="flex-1 transition-transform duration-500 p-4">
-              {children}
-            </main>
-          </div>
+                {/* main content */}
+                <main className="flex-1 transition-transform duration-500 p-4">
+                  {children}
+                </main>
+              </div>
+            </ReduxProvider>
+          </ProviderSession>
         </body>
       </html>
     </>

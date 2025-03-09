@@ -74,6 +74,7 @@ export const POST = async (req) => {
     } else {
       result = await collection.insertOne({
         email,
+        createAt: new Date(),
         chatId: chatId.toString(),
         prompts: [dbData],
       });

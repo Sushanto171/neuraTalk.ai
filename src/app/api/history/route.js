@@ -16,6 +16,7 @@ export const GET = async (req) => {
       {
         $project: {
           chatId: 1,
+          createAt: 1,
           title: {
             $arrayElemAt: [
               { $map: { input: "$prompts", as: "item", in: "$$item.prompt" } },

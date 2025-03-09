@@ -26,7 +26,7 @@ const Sidebar = () => {
           <ul className="mt-8 space-y-4">
             <li>
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full rounded-md shadow-xl bg-blue-500 text-white transition-all hover:bg-blue-600"
+                className="flex items-center gap-3 px-4 py-2 w-full rounded-md shadow-xl bg-blue-500  text-white transition-all hover:bg-blue-600"
                 onClick={() => dispatch(setNewChat())}
               >
                 <Plus size={20} /> <span>New Chat</span>
@@ -51,8 +51,8 @@ const Sidebar = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed top-[66px] transition-all duration-500 cursor-pointer ${
-          isOpen ? "left-[210px]" : "left-0"
+        className={`fixed top-3 sm:top-[66px] transition-all border sm:border-none border-white duration-500 cursor-pointer ${
+          isOpen ? "sm:left-[210px] left-1" : " left-1"
         } bg-gray-400 text-white p-2 scale-70 sm:scale-90 md:scale-100 rounded-full shadow-md hover:bg-gray-700`}
       >
         <Menu size={24} />

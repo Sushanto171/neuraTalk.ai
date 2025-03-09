@@ -9,9 +9,9 @@ const Navbar = async () => {
 
   return (
     <nav className=" bg-gray-400 sticky top-0">
-      <div className="flex items-center justify-between max-w-screen-lg mx-auto h-16">
+      <div className="flex items-center justify-between max-w-screen-lg px-4 sm:px-0 mx-auto h-16">
         <div>
-          <Link href={"/"} className="text-xl font-bold">
+          <Link href={"/"} className="text-xl font-bold pl-7">
             NeuraTalk.ai
           </Link>
         </div>

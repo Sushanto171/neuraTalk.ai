@@ -60,6 +60,7 @@ const History = () => {
           history.map((item) => (
             <li key={item._id} className="mb-2">
               <button
+                title={new Date(item.createAt).toLocaleDateString()}
                 onClick={() => {
                   handlerHistory(item.chatId), setActive(item._id);
                 }}

@@ -151,7 +151,7 @@ const PromptInput = () => {
         </div>
 
         {/* New Chat + Select Option (Bottom Left) */}
-        <div className="absolute bottom-[-4px] -left-4 flex items-center space-x-2 scale-[65%]">
+        <div className="absolute bottom-[-2px] -left-4 flex items-center space-x-2 scale-[65%]">
           <button
             title="New Chat"
             onClick={() => dispatch(setNewChat())}

@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NeuraTalk.ai
 
-## Getting Started
+NeuraTalk.ai is an AI-powered chat application built with **Next.js**, **Redux Toolkit**, and **Google's Generative AI** and **EchoGPT**. It enables seamless interactions with AI models, offering real-time conversations and responses.
 
-First, run the development server:
+## Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+[NeuraTalk.ai Live Demo](https://neura-talk-qbr6ckros-sushanto171s-projects.vercel.app)
+
+## 🚀 Features
+
+- AI-powered chat system
+- User authentication with **NextAuth.js**
+- State management using **Redux Toolkit**
+- **DaisyUI & TailwindCSS** for a modern UI
+- **MongoDB** for database storage
+- Toast notifications with **react-hot-toast**
+- **Lucide-react** icons for a better user experience
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js (React 19), DaisyUI, TailwindCSS
+- **State Management:** Redux Toolkit
+- **Authentication:** NextAuth.js
+- **Backend:** Next.js API Routes
+- **Database:** MongoDB
+- **AI Integration:** Google Generative AI API
+
+## 📦 Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Sushanto171/neuraTalk.ai
+   cd neuratalk.ai
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Create a `.env.local` file and add the following:
+   ```env
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
+   GOOGLE_AI_API_KEY=your_google_ai_api_key
+   NEXTAUTH_SECRET=your_nextauth_secret
+   MONGODB_URI=your_mongodb_connection_string
+   ```
+4. Run the development server:
+   ```sh
+   npm run dev
+   ```
+   The app will be available at `http://localhost:3000`
+
+## 📂 Project Structure
+
+```
+├── src
+│   ├── app         # Next.js App Router
+│   ├── components  # UI components
+│   ├── lib         # Store & API handlers
+│   ├── pages       # Auth & dynamic routes
+│   ├── public      # Static assets
+│   ├── styles      # Global styles
+└── .env.local      # Environment variables
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 Usage
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Chat with AI**: Enter a prompt and receive AI-generated responses.
+- **Authentication**: Secure login system using NextAuth.
+- **Manage state**: Redux handles global state management efficiently.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔗 Dependencies
 
-## Learn More
+```json
+{
+  "@google/generative-ai": "^0.24.0",
+  "@reduxjs/toolkit": "^2.6.1",
+  "axios": "^1.8.2",
+  "daisyui": "^5.0.0",
+  "lucide-react": "^0.479.0",
+  "mongodb": "^6.14.2",
+  "next": "15.2.1",
+  "next-auth": "^5.0.0-beta.25",
+  "react": "^19.0.0",
+  "react-dom": "^19.0.0",
+  "react-hot-toast": "^2.5.2",
+  "react-icons": "^5.5.0",
+  "react-redux": "^9.2.0"
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Contribution
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature-branch`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to your branch (`git push origin feature-branch`)
+5. Create a Pull Request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📜 License
 
-## Deploy on Vercel
+This project is open-source and available under the **MIT License**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed with ❤️ by **Sushanto kumar** 🚀

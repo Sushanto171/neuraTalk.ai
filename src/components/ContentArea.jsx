@@ -20,7 +20,6 @@ const formatText = (text) => {
 const ContentArea = ({ isNewChat }) => {
   const { chats } = useSelector((state) => state.chats);
 
-  // console.log(chats);
   return (
     <div
       className={`flex-1 overflow-auto p-4 bg-gray-100 rounded-lg border border-gray-300 shadow-md ${
@@ -64,7 +63,7 @@ const ContentArea = ({ isNewChat }) => {
                       </div>
                       {/* Timestamp */}
                       <div className="text-xs text-gray-500 text-right">
-                        {new Date(chat.createdAt).toLocaleTimeString()}
+                        {new Date(chat.createAt).toLocaleTimeString()}
                       </div>
                     </li>
                   ))}

@@ -73,6 +73,11 @@ const PromptInput = () => {
     }
   }, [session?.data?.user]);
 
+  useEffect(() => {
+    if (newChat) {
+      setChatId("");
+    }
+  }, [newChat]);
   const handleSend = async () => {
     if (!session?.data?.user?.email) return toast.error("User is not exist");
     if (input.trim()) {
@@ -99,7 +104,7 @@ const PromptInput = () => {
   };
 
   return (
-    <div className="flex-1 justify-center w-full max-w-2xl mx-auto flex flex-col gap-10">
+    <div className="flex-1 justify-center w-full max-w-2xl mx-auto flex flex-col gap-4">
       {/* content area */}
       <div
         className={`overflow-y-auto ${newChat ? "" : "h-[calc(100vh-220px)]"} ${
@@ -108,52 +113,66 @@ const PromptInput = () => {
       >
         <ContentArea isNewChat={newChat} />
       </div>
+
       {/* input area */}
-      <div className="flex items-start border border-gray-300 rounded-xl p-2 shadow-md bg-white w-full max-w-2xl mx-auto">
-        {/* add new chat  */}
-        <div>
-          <button
-            onClick={() => {
-              setChatId(""), dispatch(setNewChat());
+      <div className="w-full max-w-2xl mx-auto relative">
+        {/* Input Box */}
+        <div className="flex items-start border border-gray-300 rounded-2xl p-3 pb-5 shadow-md bg-white w-full relative">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Send a message..."
+            className="flex-1 outline-none p-2 text-gray-700 resize-none bg-transparent text-base"
+            rows={2}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
             }}
+          />
+
+          {/* Voice & Send Buttons */}
+          <div className="flex space-x-2">
+            <button
+              onClick={toggleListening}
+              className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+            >
+              {listening ? <AudioLines size={20} /> : <Mic size={20} />}
+            </button>
+
+            <button
+              onClick={handleSend}
+              className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition"
+            >
+              <Send size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* New Chat + Select Option (Bottom Left) */}
+        <div className="absolute bottom-[-4px] -left-4 flex items-center space-x-2 scale-[65%]">
+          <button
+            title="New Chat"
+            onClick={() => dispatch(setNewChat())}
+            className="p-1 bg-gray-100 hover:bg-gray-200 rounded-lg transition cursor-pointer opacity-75"
           >
-            <CirclePlus />
+            <CirclePlus size={24} />
           </button>
 
           <select
             onChange={(e) => setEngine(e.target.value)}
             value={engine}
-            className="select"
+            className="border rounded-lg px-2 py-1 text-gray-700 cursor-pointer"
           >
-            <option value={"echoGpt"}>EchoGPT</option>
-            <option value={"gemini"}>Gemini</option>
+            <option value="echoGpt" className="text-xs cursor-pointer">
+              EchoGPT
+            </option>
+            <option value="gemini" className="text-xs cursor-pointer">
+              Gemini
+            </option>
           </select>
         </div>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message..."
-          className="flex-1 outline-none p-2 text-gray-700 resize-none"
-          rows={2}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-        />
-        <button
-          onClick={toggleListening}
-          className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition mx-1"
-        >
-          {listening ? <AudioLines size={20} /> : <Mic size={20} />}
-        </button>
-        <button
-          onClick={handleSend}
-          className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition"
-        >
-          <Send size={20} />
-        </button>
       </div>
     </div>
   );

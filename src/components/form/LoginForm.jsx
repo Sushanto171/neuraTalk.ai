@@ -3,7 +3,7 @@
 import { doSocial } from "@/app/actions";
 import { useState } from "react";
 
-const LoginForm = () => {
+const LoginForm = ({ isRow = false }) => {
   const [error, setError] = useState("");
   const handleLogin = async (action) => {
     const result = await doSocial({ action }); // Call the server action
@@ -15,7 +15,10 @@ const LoginForm = () => {
 
   return (
     <div>
-      <form onSubmit={(e) => e.preventDefault()} className="flex gap-2">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className={`flex gap-2 ${isRow ? "flex-col" : ""}`}
+      >
         {/* Google */}
         <button
           onClick={() => handleLogin("google")}

@@ -2,6 +2,7 @@
 import { fetchChats } from "@/lib/features/chats/chatsSlice";
 import { getHistory } from "@/lib/features/history/historyApi";
 import { resetNewChat } from "@/lib/features/newChat/newChatSlice";
+import { MessageSquare } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,7 @@ const History = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const { newChat } = useSelector((state) => state.newChat);
+  const [isActive, setActive] = useState("");
 
   useEffect(() => {
     if (!session?.data?.user?.email) return;
@@ -40,12 +42,13 @@ const History = () => {
     <div className="w-full max-w-md mx-auto">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="btn btn-primary w-full py-2 rounded-md shadow-md transition duration-300 transform hover:scale-105 hover:bg-blue-600"
+        className="btn flex justify-between w-full py-2 rounded-md shadow-md transition duration-300 transform hover:scale-105 "
       >
-        History
+        <MessageSquare size={20} />
+        <span className="flex-1 text-left gap-6">History</span>
       </button>
       <ul
-        className={`overflow-y-auto transition-all transform-view duration-300 ${
+        className={`overflow-y-auto transition-all transform-view duration-300 bg-white/40 p-1 rounded ${
           isOpen
             ? `max-h-[calc(100vh-400px)] ${
                 history.length > 0 ? "min-h-20" : ""
@@ -57,8 +60,12 @@ const History = () => {
           history.map((item) => (
             <li key={item._id} className="mb-2">
               <button
-                onClick={() => handlerHistory(item.chatId)}
-                className="cursor-pointer w-full py-2 px-4 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200 transition-all truncate"
+                onClick={() => {
+                  handlerHistory(item.chatId), setActive(item._id);
+                }}
+                className={`cursor-pointer w-full py-2 px-4 ${
+                  isActive === item._id ? "bg-white" : ""
+                } rounded-md  transition-all truncate`}
               >
                 {item.title}
               </button>

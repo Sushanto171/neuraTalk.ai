@@ -6,7 +6,7 @@ const collection = promptsCollection();
 export const GET = async (req) => {
   const session = await auth();
   const email = session.user.email;
-  console.log(session.user);
+  // console.log(session.user);
 
   const result = await collection
     .aggregate([

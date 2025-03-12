@@ -2,6 +2,7 @@
 import { setNewChat } from "@/lib/features/newChat/newChatSlice";
 import { HelpCircle, Menu, Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import History from "../sidbar/History";
@@ -9,7 +10,7 @@ import History from "../sidbar/History";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const dispatch = useDispatch();
-
+  const router = useRouter();
   return (
     <div
       className={`fixed sm:relative transition duration-500 z-20 ${
@@ -18,7 +19,7 @@ const Sidebar = () => {
     >
       {/* Sidebar */}
       <div
-        className={`h-[calc(100vh-58px)] fixed overflow-y-auto w-64 bg-gray-200 p-4 transition duration-500 ${
+        className={`h-[calc(100vh-58px)] fixed overflow-y-auto w-64 bg-gray-200 dark:bg-gray-900 p-4 transition duration-500 ${
           isOpen ? "translate-x-0" : "-translate-x-64"
         }`}
       >
@@ -26,8 +27,10 @@ const Sidebar = () => {
           <ul className="mt-8 space-y-4">
             <li>
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full rounded-md shadow-xl bg-blue-500  text-white transition-all hover:bg-blue-600"
-                onClick={() => dispatch(setNewChat())}
+                className="flex items-center gap-3 cursor-pointer px-4 py-2 w-full rounded-md shadow-xl bg-blue-500  text-white transition-all hover:bg-blue-600"
+                onClick={() => {
+                  dispatch(setNewChat()), router.push("/");
+                }}
               >
                 <Plus size={20} /> <span>New Chat</span>
               </button>

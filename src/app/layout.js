@@ -26,11 +26,12 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await auth();
+
   return (
     <>
-      <html lang="en" data-theme="light">
+      <html lang="en" className="">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-gray-800 dark:text-white`}
         >
           <ProviderSession>
             <ReduxProvider>
@@ -39,16 +40,14 @@ export default async function RootLayout({ children }) {
               <Navbar />
               {session?.user ? (
                 <>
-                  <div className="flex">
+                  <div className="flex transition-transform duration-500">
                     {/* sidebar */}
                     <aside>
                       <Sidebar />
                     </aside>
 
                     {/* main content */}
-                    <main className="flex-1 transition-transform duration-500 p-4">
-                      {children}
-                    </main>
+                    <main className="flex-1  p-4">{children}</main>
                   </div>
                 </>
               ) : (

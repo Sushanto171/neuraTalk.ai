@@ -4,6 +4,7 @@ import { getHistory } from "@/lib/features/history/historyApi";
 import { resetNewChat } from "@/lib/features/newChat/newChatSlice";
 import { MessageSquare } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,6 +15,7 @@ const History = () => {
   const dispatch = useDispatch();
   const { newChat } = useSelector((state) => state.newChat);
   const [isActive, setActive] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     if (!session?.data?.user?.email) return;
@@ -48,7 +50,7 @@ const History = () => {
         <span className="flex-1 text-left gap-6">History</span>
       </button>
       <ul
-        className={`overflow-y-auto transition-all transform-view duration-300 bg-white/40 p-1 rounded ${
+        className={`overflow-y-auto transition-all transform-view duration-300 bg-white/40 dark:bg-gray-800 p-1 rounded ${
           isOpen
             ? `max-h-[calc(100vh-400px)] ${
                 history.length > 0 ? "min-h-20" : ""
@@ -62,10 +64,12 @@ const History = () => {
               <button
                 title={new Date(item.createAt).toLocaleDateString()}
                 onClick={() => {
-                  handlerHistory(item.chatId), setActive(item._id);
+                  handlerHistory(item.chatId),
+                    setActive(item._id),
+                    router.push("/");
                 }}
                 className={`cursor-pointer w-full py-2 px-4 ${
-                  isActive === item._id ? "bg-white" : ""
+                  isActive === item._id ? "bg-white dark:bg-gray-600" : ""
                 } rounded-md  transition-all truncate`}
               >
                 {item.title}

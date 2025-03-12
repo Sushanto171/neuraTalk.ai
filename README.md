@@ -4,7 +4,7 @@ NeuraTalk.ai is an AI-powered chat application built with **Next.js**, **Redux T
 
 ## Live Demo
 
-[NeuraTalk.ai Live Demo](https://neura-talk-qbr6ckros-sushanto171s-projects.vercel.app)
+[NeuraTalk.ai Live Demo](https://neura-talk-ai.vercel.app)
 
 ## 🚀 Features
 
@@ -15,6 +15,7 @@ NeuraTalk.ai is an AI-powered chat application built with **Next.js**, **Redux T
 - **MongoDB** for database storage
 - Toast notifications with **react-hot-toast**
 - **Lucide-react** icons for a better user experience
+- **Speech Recognition** for voice input (using Web Speech API)
 
 ## 🛠️ Tech Stack
 

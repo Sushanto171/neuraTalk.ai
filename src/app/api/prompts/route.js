@@ -38,6 +38,7 @@ export const GET = async (req) => {
 export const POST = async (req) => {
   try {
     const { prompt, email, chatId, engine } = await req.json();
+    // console.log({ prompt });
     // validation
     if (!email || !prompt) {
       return Response.json({
@@ -49,16 +50,17 @@ export const POST = async (req) => {
     // get content
     let response;
     if (engine === "gemini") {
-      response = await generateText(prompt);
+      response = await generateText(JSON.stringify(prompt));
     }
 
     // echo gpt
     if (engine === "echoGpt") {
-      response = await generateTextEcoGPT(prompt);
+      response = await generateTextEcoGPT(JSON.stringify(prompt));
     }
+    const userQuery = prompt[prompt.length - 1]?.content || "";
     // mongodb data
     const dbData = {
-      prompt,
+      prompt: userQuery || prompt,
       response,
       createAt: new Date(),
     };
@@ -79,6 +81,7 @@ export const POST = async (req) => {
         prompts: [dbData],
       });
     }
+
     return Response.json({ message: "success", data: { chatId } });
   } catch (error) {
     // console.log(error.message);
